@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+
+<title>Insert title here</title>
+</head>
+
+<body>
+
+
+	<div>
+		<button type="button" onclick="location.href='/users/signUp'">sign
+			up</button>
+	</div>
+	<h1>컨트롤러 데이터 출력</h1>
+
+	<table border="1">
+		<thead>
+			<tr>
+				<th>member name</th>
+				<th>update</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="m:${memberlist}">
+				<td th:text="${m.memberName}"></td>
+				<td>
+					<button>update</button>	
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

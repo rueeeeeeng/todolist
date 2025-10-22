@@ -1,4 +1,4 @@
-package com.example.todo.entity;
+package com.example.todo.member.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,24 +12,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity// 이 클래스를 DB 테이블과 매핑
-@Table(name = "user")
+@Table(name = "member")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED) // JPA 사용을 위한 기본 생성자
-public class User {
+@NoArgsConstructor
+public class Member {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)// ID 자동 증가 전략 (MySQL 기준)
-	@Column(name = "userId")
-	private Long userId;
+	@Column(name = "memberId")
+	private Long memberId;
 	
 	@Column(nullable = false, length = 50)
-	private String username;
+	private String memberName;
 	
 	@Column(nullable = false)
 	private String password;
 	
 	@Builder
-    public User(String username, String password) {
-        this.username = username;
+    public Member(String memberName, String password) {
+        this.memberName = memberName;
         this.password = password;
     }
 }
