@@ -10,6 +10,7 @@ import com.example.todo.member.dto.MemberDto;
 import com.example.todo.member.entity.Member;
 import com.example.todo.member.repository.MemberRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -40,5 +41,27 @@ public class MemberService {
 				.build();
 		memberRepository.save(member);
 		log.info("userService joinUser success");
+	}
+
+	public MemberDto selectMember(Long id) {
+		// TODO Auto-generated method stub
+		Member mem = memberRepository.findById(id).get();
+		MemberDto member = MemberDto.builder()
+				.memberId(mem.getMemberId())
+				.memberName(mem.getMemberName())
+				.build();
+		return member;
+	}
+
+	@Transactional
+	public void updateMember(MemberDto memberDto) {
+		Member member = memberRepository.findById(memberDto.getMemberId())
+				.orElseThrow(() -> new IllegalArgumentException("해당 멤버를 찾을 수 없습니다. id=" + memberDto.getMemberId()));
+
+        // todo : 엔티티의 update 메소드에 passwordEncoder를 함께 전달
+        member.update(memberDto.getMemberName(), 
+                      memberDto.getPassword());
+		log.info("=====MemberService Update End=====");
+		
 	}
 }

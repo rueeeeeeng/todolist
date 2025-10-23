@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div>
+		<div>member Update</div>
+		<form th:action="@{/members/updateMember}" th:object="${member}" th:method="post">
+
+			<input type="hidden" th:field="*{memberId}" />
+
+			<div>
+				<label>Username (ID):</label> <input type="text"
+					th:field="*{memberName}" />
+			</div>
+			<div>
+				<label>Password:</label> <input type="password" th:field="*{password}"
+					placeholder="새 비밀번호 (선택)" />
+			</div>
+
+			<button type="submit">수정 완료</button>
+		</form>
+
+
+	</div>
+</body>
+</html>

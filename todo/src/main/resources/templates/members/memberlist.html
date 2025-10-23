@@ -10,7 +10,7 @@
 
 
 	<div>
-		<button type="button" onclick="location.href='/users/signUp'">sign
+		<button type="button" onclick="location.href='/members/signUp'">sign
 			up</button>
 	</div>
 	<h1>컨트롤러 데이터 출력</h1>
@@ -26,7 +26,7 @@
 			<tr th:each="m:${memberlist}">
 				<td th:text="${m.memberName}"></td>
 				<td>
-					<button>update</button>	
+					<a th:href="@{/members/updateForm/{id}(id=${m.memberId})}">Update</a>
 				</td>
 			</tr>
 		</tbody>
