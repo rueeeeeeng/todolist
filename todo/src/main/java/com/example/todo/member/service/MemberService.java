@@ -5,16 +5,18 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import com.example.todo.member.dto.MemberDto;
 import com.example.todo.member.entity.Member;
 import com.example.todo.member.repository.MemberRepository;
 
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@Transactional(readOnly = true) //성능 최적화
 public class MemberService {
 	
 	@Autowired
@@ -64,4 +66,13 @@ public class MemberService {
 		log.info("=====MemberService Update End=====");
 		
 	}
+
+	@Transactional
+	public void deleteMember(Long id) {
+		memberRepository.deleteById(id);
+		log.info("=====MemberService Delete End=====");
+		
+	}
+	
+	
 }
