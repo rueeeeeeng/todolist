@@ -26,10 +26,10 @@
 		<tbody>
 			<tr th:each="m:${memberlist}">
 				<td th:text="${m.memberName}"></td>
-				<td><a th:href="@{/members/updateForm/{id}(id=${m.memberId})}">Update</a>
+				<td><a th:href="@{thymeleaf/members/updateForm/{id}(id=${m.memberId})}">Update</a>
 				</td>
 				<td>
-					<form th:action="@{/members/deleteMember/{id}(id=${m.memberId})}"
+					<form th:action="@{thymeleaf/members/deleteMember/{id}(id=${m.memberId})}"
 						method="post" th:data-member-name="${m.memberName}"
               onsubmit="var name = this.getAttribute('data-member-name'); return confirm(name + '님을 정말로 삭제하시겠습니까?');">
 						<input type="hidden" name="_method" value="delete" />

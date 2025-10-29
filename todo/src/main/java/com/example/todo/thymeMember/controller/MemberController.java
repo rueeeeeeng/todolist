@@ -1,4 +1,4 @@
-package com.example.todo.member.controller;
+package com.example.todo.thymeMember.controller;
 
 import java.util.List;
 
@@ -11,25 +11,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.todo.member.dto.MemberDto;
-import com.example.todo.member.repository.MemberRepository;
-import com.example.todo.member.service.MemberService;
+import com.example.todo.thymeMember.dto.MemberDto;
+import com.example.todo.thymeMember.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("/members")
+@RequestMapping("thymeleaf/members")
 public class MemberController {
 
-    private final MemberRepository memberRepository;
-	
 	@Autowired
 	MemberService memberService;
 
-    MemberController(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
 	
 	@GetMapping("/memberlist")
 	public String userlist(Model model) {

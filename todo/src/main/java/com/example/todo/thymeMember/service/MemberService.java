@@ -1,4 +1,4 @@
-package com.example.todo.member.service;
+package com.example.todo.thymeMember.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
-import com.example.todo.member.dto.MemberDto;
-import com.example.todo.member.entity.Member;
-import com.example.todo.member.repository.MemberRepository;
+import com.example.todo.thymeMember.dto.MemberDto;
+import com.example.todo.thymeMember.entity.Member;
+import com.example.todo.thymeMember.repository.MemberRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

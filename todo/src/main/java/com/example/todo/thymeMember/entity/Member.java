@@ -1,4 +1,4 @@
-package com.example.todo.member.entity;
+package com.example.todo.thymeMember.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

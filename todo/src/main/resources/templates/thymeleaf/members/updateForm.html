@@ -7,7 +7,7 @@
 <body>
 	<div>
 		<div>member Update</div>
-		<form th:action="@{/members/updateMember}" th:object="${member}" th:method="post">
+		<form th:action="@{thymeleaf/members/updateMember}" th:object="${member}" th:method="post">
 
 			<input type="hidden" th:field="*{memberId}" />
 

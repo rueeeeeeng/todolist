@@ -1,4 +1,4 @@
-package com.example.todo.member.dto;
+package com.example.todo.thymeMember.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
