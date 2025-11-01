@@ -34,17 +34,14 @@ public class MemberController {
     private final MemberService memberService;
 
     /**
-     * 1. 회원 목록 조회 (GET /members)
-     * @return List<MemberResponseDto> (JSON 배열)
+     * 회원 목록 조회 (GET /members)
+     * @return List<MemberDto> (JSON 배열)
      */
     @GetMapping
     public List<MemberDto> getAllMembers() {
-    	// 1단계: 가짜(Mock) 데이터 생성
-        // (DB 연동 대신 임시 데이터를 만듭니다)
         System.out.println("GET /api/members 요청 수신!");
         
-        // 2단계: 가짜 데이터 반환
-        // @RestController가 이 List<MemberDto>를 JSON 배열로 변환해 응답합니다.
+        // @RestController List<MemberDto>를 JSON 배열로 변환해 응답
         return memberService.findAllMembers(); 
     }
 
@@ -75,9 +72,8 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdMember);
     }
 
-    // ... (회원 상세 조회, 회원 수정 API) ...
     /**
-     * 4. 회원 수정 (PUT /members/)
+     * 4. 회원 수정 (PUT /members/{id})
      * @param createRequestDto JSON Body를 DTO로 받음
      * @return MemberResponseDto (생성된 멤버 정보)
      */
@@ -87,4 +83,16 @@ public class MemberController {
 		MemberDto UpdatedMember = memberService.updateMember(id, updateRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).body(UpdatedMember);
 	}
+    
+    
+    /**
+     * 회원 상세조회 (GET /members/{id})
+     * @param createRequestDto JSON Body를 DTO로 받음
+     * @return MemberResponseDto (생성된 멤버 정보)
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<MemberDto> getMemberById(@PathVariable("id") Long id) {
+        MemberDto memberDto = memberService.findMemberById(id);
+        return ResponseEntity.ok(memberDto); // 200 OK와 함께 DTO 반환
+    }
 }

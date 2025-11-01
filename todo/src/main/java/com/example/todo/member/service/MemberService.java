@@ -2,7 +2,7 @@ package com.example.todo.member.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.hibernate.type.TrueFalseConverter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,6 +53,14 @@ public class MemberService {
 		
 		member.update(updateDto.getMemberName(), updateDto.getPassword());
 
+		return MemberDto.fromEntity(member);
+	}
+
+	
+	public MemberDto findMemberById(Long id) {
+		Member member = memberRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("해당 ID의 멤버가 없습니다.")); 
+		
 		return MemberDto.fromEntity(member);
 	}
 
