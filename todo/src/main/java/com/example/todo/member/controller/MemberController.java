@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.todo.member.dto.MemberDto;
+import com.example.todo.member.dto.MemberUpdateRequestDto;
 import com.example.todo.member.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -59,19 +61,30 @@ public class MemberController {
     }
 
     /**
-     * 3. 회원 등록 (POST /members)
+     * 3. 회원 등록 (POST /membersCreate)
      * @param createRequestDto JSON Body를 DTO로 받음
-     * @return MemberResponseDto (생성된 멤버 정보)
+     * @return createdMember (생성된 멤버 정보)
      */
-    @PostMapping
+    @PostMapping("/memberCreate")
     public ResponseEntity<MemberDto> createMember(
             @RequestBody MemberDto createRequestDto) {
         
-    	MemberDto createdMember = memberService.create(createRequestDto);
+    	MemberDto createdMember = memberService.createMember(createRequestDto);
         
         // 201 Created 상태 코드와 함께 생성된 리소스 반환
         return ResponseEntity.status(HttpStatus.CREATED).body(createdMember);
     }
 
     // ... (회원 상세 조회, 회원 수정 API) ...
+    /**
+     * 4. 회원 수정 (PUT /members/)
+     * @param createRequestDto JSON Body를 DTO로 받음
+     * @return MemberResponseDto (생성된 멤버 정보)
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<MemberDto> updateMember(@PathVariable("id") Long id,
+    		@RequestBody MemberUpdateRequestDto updateRequestDto) {
+		MemberDto UpdatedMember = memberService.updateMember(id, updateRequestDto);
+		return ResponseEntity.status(HttpStatus.OK).body(UpdatedMember);
+	}
 }

@@ -1,5 +1,7 @@
 package com.example.todo.member.dto;
 
+import com.example.todo.member.entity.Member;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,4 +22,16 @@ public class MemberDto {
 	private String password;
 	
 	// private String email; // 필요하다면 email 같은 필드도 추가
+	
+	/**
+     * Entity를 DTO로 변환하는 정적(static) 팩토리 메서드
+     * @param member Member 엔티티
+     * @return MemberDto
+     */
+    public static MemberDto fromEntity(Member member) {
+        return MemberDto.builder()
+                .memberId(member.getMemberId())
+                .memberName(member.getMemberName())
+                .build();
+    }
 }
