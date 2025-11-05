@@ -14,21 +14,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.todo.member.dto.MemberDto;
+import com.example.todo.member.dto.MemberResponseDto;
 import com.example.todo.member.dto.MemberUpdateRequestDto;
+import com.example.todo.member.dto.SignUpRequestDto;
 import com.example.todo.member.service.MemberService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @RestController : 이 클래스가 REST API 컨트롤러임을 나타내며, 
- * 메서드의 반환 값(객체)을 자동으로 JSON으로 변환해 줍니다.
+ * 메서드의 반환 값(객체)을 자동으로 JSON으로 변환
  */
-// React 포트(예: 3000)에서의 요청을 허용하기 위해 @CrossOrigin 추가
+// React 포트에서의 요청을 허용하기 위해 @CrossOrigin 추가
 @CrossOrigin(origins = "http://localhost:3000") 
 @RestController
 @RequestMapping("/members") // API 기본 경로 설정
 @RequiredArgsConstructor
+@Slf4j
 public class MemberController {
 
     private final MemberService memberService;
@@ -38,61 +42,65 @@ public class MemberController {
      * @return List<MemberDto> (JSON 배열)
      */
     @GetMapping
-    public List<MemberDto> getAllMembers() {
-        System.out.println("GET /api/members 요청 수신!");
+    public List<MemberResponseDto> getAllMembers() {
+    	log.info("GET /members 요청 수신");
         
         // @RestController List<MemberDto>를 JSON 배열로 변환해 응답
         return memberService.findAllMembers(); 
     }
-
+    
     /**
-     * 2. 회원 삭제 (DELETE /members/{id})
+     * 회원 상세조회 (GET /members/{id})
+     * @param id 회원 ID (경로 변수)
+     * @return ResponseEntity<MemberDto>
      */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMember(@PathVariable("id") Long id) {
-        memberService.deleteMember(id); 
-        
-        // 삭제 성공 시 200 OK 또는 204 No Content 반환
-        return ResponseEntity.ok().build(); 
-        // return ResponseEntity.noContent().build(); // 204도 좋은 선택
+    @GetMapping("/{id}")
+    public ResponseEntity<MemberResponseDto> getMemberById(@PathVariable("id") Long id) {
+    	log.info("GET /members/{} 요청 수신", id);
+        MemberResponseDto memberDto = memberService.findMemberById(id);
+        return ResponseEntity.ok(memberDto); // 200 OK와 함께 DTO 반환
     }
 
     /**
-     * 3. 회원 등록 (POST /membersCreate)
+     * 회원 등록 (POST /members)
      * @param createRequestDto JSON Body를 DTO로 받음
-     * @return createdMember (생성된 멤버 정보)
+     * @return ResponseEntity<MemberDto>
      */
-    @PostMapping("/memberCreate")
-    public ResponseEntity<MemberDto> createMember(
-            @RequestBody MemberDto createRequestDto) {
-        
-    	MemberDto createdMember = memberService.createMember(createRequestDto);
+    @PostMapping
+    public ResponseEntity<MemberResponseDto> createMember(
+            @Valid @RequestBody SignUpRequestDto createRequestDto) {
+    	log.info("POST /members 요청 수신");
+    	MemberResponseDto createdMember = memberService.createMember(createRequestDto);
         
         // 201 Created 상태 코드와 함께 생성된 리소스 반환
         return ResponseEntity.status(HttpStatus.CREATED).body(createdMember);
     }
 
     /**
-     * 4. 회원 수정 (PUT /members/{id})
-     * @param createRequestDto JSON Body를 DTO로 받음
-     * @return MemberResponseDto (생성된 멤버 정보)
+     * 회원 수정 (PUT /members/{id})
+     * @param id 회원 ID(경로 변수)
+     * @param updateRequestDto 수정할 회원 정보 (JSON Body)
+     * @return ResponseEntity<MemberDto>
      */
     @PutMapping("/{id}")
-    public ResponseEntity<MemberDto> updateMember(@PathVariable("id") Long id,
+    public ResponseEntity<MemberResponseDto> updateMember(@PathVariable("id") Long id,
     		@RequestBody MemberUpdateRequestDto updateRequestDto) {
-		MemberDto UpdatedMember = memberService.updateMember(id, updateRequestDto);
+    	log.info("PUT /members/{} 요청 수신", id);
+    	MemberResponseDto UpdatedMember = memberService.updateMember(id, updateRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).body(UpdatedMember);
 	}
     
-    
     /**
-     * 회원 상세조회 (GET /members/{id})
-     * @param createRequestDto JSON Body를 DTO로 받음
-     * @return MemberResponseDto (생성된 멤버 정보)
+     * 회원 삭제 (DELETE /members/{id})
+     * @return ResponseEntity<Void>
      */
-    @GetMapping("/{id}")
-    public ResponseEntity<MemberDto> getMemberById(@PathVariable("id") Long id) {
-        MemberDto memberDto = memberService.findMemberById(id);
-        return ResponseEntity.ok(memberDto); // 200 OK와 함께 DTO 반환
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMember(@PathVariable("id") Long id) {
+    	log.info("DELETE /members/{} 요청 수신", id);
+    	memberService.deleteMember(id); 
+        
+        
+        // 삭제 성공 시 204 No Content 반환
+        return ResponseEntity.noContent().build();
     }
 }
